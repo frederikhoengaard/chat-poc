@@ -1,0 +1,60 @@
+name: Linting & Testing
+
+on:
+  pull_request:
+
+env:
+  PYTHONPATH: ./python/src/main/
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+
+      - name: Install packages
+        run: |
+          pipenv sync --dev
+
+      - name: Create test report directory
+        run: |
+          mkdir test-report
+
+      - name: Run test
+        run: |
+          pipenv run pytest python/src/test --junit-xml=test-report/report.xml
+
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install linters
+        run: |
+          pip install black isort flake8
+
+      - name: black
+        run: |
+          python -m black --check python/src/main/
+
+      - name: isort
+        run: |
+          python -m isort python/src/main/ --multi-line 3 --profile black --check
+
+      - name: flake8
+        run: |
+          python -m flake8 python/src/main/
