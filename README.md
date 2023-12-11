@@ -21,8 +21,20 @@ This system runs as individual microservices. To test it out clone this reposito
 
 Will spin up a postgres database necessary for RAG functionality and the backend microservice.
 
-You can then send requests to the service at:
+You can then send POST requests to the service at:
 
 `localhost:5566:api/prompt/{conversation_id}`
 
-Where `conversation_id` can be anything
+Where `conversation_id` can be anything. The request body should look like:
+
+```
+{
+    "conversation": [
+        {
+            "role": "user",
+            "content": "Hi there, what's the most awesome toy company in the world?"
+        }
+    ]
+}
+
+```
