@@ -1,0 +1,16 @@
+version: "3"
+services:
+  postgres:
+    build: ../python/src/main/postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: vectordb
+  backend:
+    build: ../python/src/main/backend
+    ports:
+    - "8000:5566"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
