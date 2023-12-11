@@ -27,7 +27,7 @@ jobs:
 
       - name: Run test
         run: |
-          python pytest python/src/test --junit-xml=test-report/report.xml
+          pytest python/src/test --junit-xml=test-report/report.xml
 
   linting:
     runs-on: ubuntu-latest

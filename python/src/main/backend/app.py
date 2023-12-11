@@ -13,7 +13,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores.pgvector import PGVector
 from models import Conversation, Message
 from templates import prompt_template
-from utils import create_messages, format_docs
+from utils import create_messages
 
 CONNECTION_STRING = "postgresql+psycopg2://admin:admin@postgres:5432/vectordb"
 COLLECTION_NAME = "vectordb"
@@ -62,10 +62,9 @@ def prompt_llm(conversation: Conversation) -> Dict[str, str]:
             logger.info("Found relevant document!")
             docs = docs[0].page_content
 
-
-    except Exception as e:
+    except Exception as e:  # noqa
         logger.error("Similarity lookup failed")
-        docs=None
+        docs = None
 
     prompt = system_message_prompt.format(context=docs)
     messages = [prompt] + create_messages(
@@ -75,14 +74,16 @@ def prompt_llm(conversation: Conversation) -> Dict[str, str]:
     try:
         logger.info("Requesting OpenAI API")
         result = llm(messages)
-    except Exception as e:
+    except Exception as e:  # noqa
         result = "An error ocurred. Please try again later."
 
     return {"reply": result.content}
 
 
 @app.post("/api/prompt/{conversation_id}")
-async def process_prompt(conversation_id: str, conversation: Conversation) -> Message:
+async def process_prompt(
+    conversation_id: str, conversation: Conversation
+) -> Message:  # noqa
     """
     This function handles the flow of the LLM proxy. It retrieves or
     instantiates a conversation given a user_id, forwards the conversation
@@ -99,7 +100,12 @@ async def process_prompt(conversation_id: str, conversation: Conversation) -> Me
         logger.info("No existing conversation. Creating a new one")
         existing_conversation = {
             "conversation": [
-                Message(**{"role": "system", "content": "You are a helpful assistant."})
+                Message(
+                    **{
+                        "role": "system",
+                        "content": "You are a helpful assistant.",
+                    }  # noqa
+                )
             ]
         }
         existing_conversation = Conversation(**existing_conversation)

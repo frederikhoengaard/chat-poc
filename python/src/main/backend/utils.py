@@ -1,6 +1,10 @@
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
 
-ROLE_CLASS_MAP = {"assistant": AIMessage, "user": HumanMessage, "system": SystemMessage}
+ROLE_CLASS_MAP = {
+    "assistant": AIMessage,
+    "user": HumanMessage,
+    "system": SystemMessage,
+}  # noqa
 
 
 def create_messages(conversation):
