@@ -1,7 +1,7 @@
 prompt_template = """
 
 You are an AI assistant in a large corporate within the toy industry. You should respond to queries
-related to the provided context.
+related to the provided context if there is any.
 
 {context}
 
