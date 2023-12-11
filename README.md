@@ -17,7 +17,7 @@ The backend application interfacing with the LLM is a FastAPI app. While for the
 
 This system runs as individual microservices. To test it out clone this repository. Make sure to set the `OPENAI_API_KEY` environment variable and then run:
 
-`docker compose up`
+`docker compose up --build`
 
 Will spin up a postgres database necessary for RAG functionality and the backend microservice.
 
