@@ -17,13 +17,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install pipenv
-        run: |
-          pip install pipenv
-
       - name: Install packages
         run: |
-          pipenv sync --dev
+          pip install -r pip/requirements.txt
 
       - name: Create test report directory
         run: |
@@ -31,7 +27,7 @@ jobs:
 
       - name: Run test
         run: |
-          pipenv run pytest python/src/test --junit-xml=test-report/report.xml
+          python pytest python/src/test --junit-xml=test-report/report.xml
 
   linting:
     runs-on: ubuntu-latest
