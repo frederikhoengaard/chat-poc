@@ -20,9 +20,8 @@ COLLECTION_NAME = "vectordb"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-mem = {}
 
-
+mem = {}  # stores chat history
 embeddings = OpenAIEmbeddings()
 llm = ChatOpenAI(model="gpt-3.5-turbo")
 store = PGVector(
