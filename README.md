@@ -23,7 +23,7 @@ Will spin up a postgres database necessary for RAG functionality and the backend
 
 You can then send POST requests to the service at:
 
-`localhost:5566:api/prompt/{conversation_id}`
+`localhost:8000:api/prompt/{conversation_id}`
 
 Where `conversation_id` can be anything. The request body should look like:
 
