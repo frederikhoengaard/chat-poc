@@ -72,8 +72,6 @@ def prompt_llm(conversation: Conversation) -> Dict[str, str]:
         conversation=conversation.conversation
     )  # noqa
 
-    print("MESSAGES", messages)
-
     try:
         logger.info("Requesting OpenAI API")
         result = llm(messages)
@@ -123,6 +121,12 @@ async def process_prompt(conversation_id: str, conversation: Conversation) -> Me
 
 
 def load_and_index_docs():
+    """
+    This function loads the text in docs.txt into
+    the pgvector database.
+
+    :return:
+    """
     loader = TextLoader("./docs.txt")
     documents = loader.load()
     text_splitter = CharacterTextSplitter(chunk_size=150, chunk_overlap=20)
