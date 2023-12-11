@@ -55,13 +55,24 @@ def prompt_llm(conversation: Conversation) -> Dict[str, str]:
     """
     query = conversation.conversation[-1].content
 
-    docs = retriever.get_relevant_documents(query=query)
-    docs = format_docs(docs=docs)
+    try:
+        logger.info("Performing similarity lookup")
+        docs = retriever.get_relevant_documents(query=query)
+        if len(docs) > 0:
+            logger.info("Found relevant document!")
+            docs = docs[0].page_content
+
+
+    except Exception as e:
+        logger.error("Similarity lookup failed")
+        docs=None
 
     prompt = system_message_prompt.format(context=docs)
     messages = [prompt] + create_messages(
         conversation=conversation.conversation
     )  # noqa
+
+    print("MESSAGES", messages)
 
     try:
         logger.info("Requesting OpenAI API")
@@ -130,6 +141,8 @@ def load_and_index_docs():
         source_id_key="source",
     )
 
+
+load_and_index_docs()
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=5566)
